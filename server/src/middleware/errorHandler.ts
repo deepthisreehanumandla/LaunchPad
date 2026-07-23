@@ -7,7 +7,12 @@ import { isProduction } from '@config/env';
  * exceptions into the standard { success: false, error: {...} } envelope.
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function errorHandler(err: unknown, req: Request, res: Response, _next: NextFunction): void {
+export function errorHandler(
+  err: unknown,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+): void {
   if (err instanceof ApiError) {
     res.status(err.statusCode).json({
       success: false,
@@ -28,7 +33,7 @@ export function errorHandler(err: unknown, req: Request, res: Response, _next: N
     success: false,
     error: {
       code: 'INTERNAL_ERROR',
-      message: isProduction ? 'Something went wrong' : (err as Error)?.message ?? 'Unknown error',
+      message: isProduction ? 'Something went wrong' : ((err as Error)?.message ?? 'Unknown error'),
     },
   });
 }
